@@ -1,5 +1,9 @@
 <?php 
-    include_once("ExpressionParser/ExpressionParser.php"); 
+    include_once("./ExpressionParser/ExpressionParser.php"); 
+    
+    $expression = null;
+    $value = null;
+    
     if(isset($_GET['expression'])) {
         $expression = $_GET['expression'];
         $value = evaluate($expression);
@@ -63,9 +67,10 @@
 <body>
     <form action="" method="get">
         <label>Expression : </label>
-        <input type="text" name="expression">
+        <input type="text" name="expression" value="<?= $expression ?? "" ?>">
         <input type="submit">
         <?php
+        if($value !== null && $expression  !== null)
             echo "👉 <b>" . $expression . "</b> = <b>" . $value . "</b>";
         ?>
     </form>

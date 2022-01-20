@@ -4,14 +4,13 @@
     class Interpreter implements Visitor {
 
         public $variables;
-        private $errors = [];
-        private $config = [];
+        public $functions;
 
-        function __construct($variables = [], $config = []) {
+        private $errors = [];
+
+        function __construct($variables = [], $functions = []) {
             $this->variables = $variables;
-            if(!empty($config)) {
-                $thiis->config = array_replace($this->config, $config);
-            }
+            $this->functions = $functions;
         }
 
         public function interpret($expression) { 
@@ -103,7 +102,9 @@
 
         function visitCallExpr($expr) {
             
-            switch ($expr->callee->name->lexeme) {
+            $functionName = $expr->callee->name->lexeme;
+
+            switch ($functionName) {
                 /* Math functions */
                 case "sin":
                     return sin($this->arg($expr, 0));
@@ -170,7 +171,42 @@
                     return substr($binValue, $bitPos - 1, 1);
             }
 
-            throw new Exception("Unknown function " . $expr->callee->name->lexeme . "()");
+            // Custom function handling
+            if(is_array($this->functions)) {
+                if(isset($this->functions[$functionName])) {
+                    $function = $this->functions[$functionName];
+                }
+            } else if (is_object($this->functions)) {
+                if(property_exists($this->functions, $functionName)) {
+                    $function = $this->functions->$functionName;
+                }
+            }
+
+            if(empty($function)) {
+                throw new Exception("Unknown function " . $functionName . "()");
+            }
+
+            $arguments = array_map(function($arg) {
+                return $this->evaluate($arg);
+            }, $expr->arguments);
+
+            $fct = new ReflectionFunction($function);
+            $nbRequiredArguments = $fct->getNumberOfRequiredParameters();
+            $nbArguments = sizeof($expr->arguments);
+
+            if($nbRequiredArguments != $nbArguments) {
+                throw new InterpreterException(
+                    "Function '" . $expr->callee->name->lexeme  . "()' expects " . $nbRequiredArguments . " arguments, "
+                    . $nbArguments . " given.", 1);
+            }
+
+            try {   
+                $result = call_user_func_array($function, $arguments);
+            } catch (Exception $e) {
+                throw new InterpreterException($e->getMessage());
+            }
+
+            return $result;
         }
 
         function visitGroupingExpr($expr) {
