@@ -16,8 +16,8 @@ As of now, import this library by adding `require_once('ExpressionParser/Express
 Expression can then be interpreted using:
 
 ```php
+// Split expression into interpretable tokens
 $tokens = (new Scanner($expression))->scanTokens();
-
 $parser = new Parser($tokens);
 try {
     $parsedExpression = $parser->parse();
@@ -25,7 +25,12 @@ try {
     die($e->getMessage());
 }
 
-$value = (new Interpreter())->interpret($parsedExpression);
+// Interpret tokens and display result of expression evaluation
+try {
+    echo (new Interpreter($variables, $functions))->interpret($parsedExpression);
+} catch (InterpreterException $e) {
+    echo $e->getMessage();
+}
 ```
 
 ## Available operations
