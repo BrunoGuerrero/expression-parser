@@ -96,9 +96,11 @@ All the following operators return a value built from a bitwise operation. These
 If a value has no defined weight, its weight will be automatically set so that the total of weights is 100. If the total of user-defined weights is already over 100, unweighted values will have their weight automatically set at 100.
 
 ## Custom variables and functions
-Custom variables can be passed into the interpreter to extend the system capabilities:
+Custom variables can be passed into the interpreter to extend the system capabilities.
 
 ```php
+// $variables can either be array or an object
+
 $variables = [
   "PI" => M_PI,
   "ten" => 10
@@ -108,11 +110,11 @@ $value = (new Interpreter($variables))->interpret($parsedExpression);
 // Expression such as "ten + PI * 2" can now be evaluated.
 ```
 
-In a similar fashion, custom functions can also be passed to the interpreter.
-
-Functions without arguments can be called in expressions without parentheses. If a variable and a function shares the same name, the variable will be interpreted.
+In a similar fashion, custom functions can also be passed to the interpreter. Functions without arguments can be called in expressions without parentheses. If a variable and a function shares the same name, the variable will be interpreted.
 
 ```php
+// $functions can either be array or an object
+
 $functions = [
     "double" => function($value) { return $value * 2; },
     "d6" => fn() => rand(1, 6) // With PHP 7.4
@@ -122,4 +124,4 @@ $value = (new Interpreter([], $functions))->interpret($parsedExpression);
 // Expression such as "10 * double(d6)" can now be evaluated.
 ```
 
-Arguments `$variable` and `$functions` can either be arrays or php objects.
+Custom variables and functions then allow for implicit multiplication in expression, such as `2PI+2` or `2double(PI)`.
