@@ -16,8 +16,10 @@ As of now, import this library by adding `require_once('ExpressionParser/Express
 Expression can then be interpreted using:
 
 ```php
-$tokens = (new Scanner($expression))->scanTokens();
+$expression = "2+3*min(sqrt(9), 4)-!2"
 
+// Split expression into interpretable tokens
+$tokens = (new Scanner($expression))->scanTokens();
 $parser = new Parser($tokens);
 try {
     $parsedExpression = $parser->parse();
@@ -25,7 +27,12 @@ try {
     die($e->getMessage());
 }
 
-$value = (new Interpreter())->interpret($parsedExpression);
+// Interpret tokens and display result of expression evaluation
+try {
+    echo (new Interpreter($variables, $functions))->interpret($parsedExpression);
+} catch (InterpreterException $e) {
+    echo $e->getMessage();
+}
 ```
 
 ## Available operations
@@ -85,7 +92,8 @@ All the following operators return a value built from a bitwise operation. These
 ### Random expressions
 - Random number in range `[a, b]` : Returns a random integer value within included boundaries `a` and `b`.
 - Random value in set `{a, b, c[, ...]}` : Returns a random value within the ones defined in the set.
-- Weighted random values in set `{a=>x, b=>y, c}` : Returns random value, with weighted probabilities. Weights are automatically adjusted so that their sum is 100. If a value in set has no defined weighted, its weight will be automatically set so that the total of weights is 100. If the total of defined weights is already over 100, unweighted values will have their weight automatically set at 100.
+- Weighted random values in set `{a=>x, b=>y, c}` : Returns random value, with weighted probabilities. Weights are automatically adjusted so that their sum is 100.  
+If a value has no defined weight, its weight will be automatically set so that the total of weights is 100. If the total of user-defined weights is already over 100, unweighted values will have their weight automatically set at 100.
 
 ## Custom variables and functions
 Custom variables can be passed into the interpreter to extend the system capabilities:
