@@ -21,11 +21,12 @@
         
         $variables = [
             "PI" => M_PI,
-            "ten" => 10
+            "ten" => 10,
         ];
 
         $functions = [
-            "double" => function($value) { return $value * 2; }
+            "double" => function($value) { return $value * 2; },
+            "d6" => fn() => rand(1, 6)
         ];
 
         try {

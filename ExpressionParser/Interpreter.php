@@ -45,7 +45,7 @@
                     if($right != 0) {
                         return $left / $right;
                     } else {
-                        throw new InterpreterException("Division by zero: " . $left . "/" . $right, 1);
+                        throw new InterpreterException("Division by zero: " . $left . "/" . $right);
                     }
                 case TokenType::STAR:
                     return $left * $right;
@@ -188,7 +188,7 @@
             if($nbRequiredArguments != $nbArguments) {
                 throw new InterpreterException(
                     "Function '" . $expr->callee->name->lexeme  . "()' expects " . $nbRequiredArguments . " arguments, "
-                    . $nbArguments . " given.", 1);
+                    . $nbArguments . " given.");
             }
 
             try {   
@@ -234,13 +234,13 @@
 
             if(is_array($this->variables)) {
                 if(isset($this->variables[$variableName])) {
-                    return $this->variables[$variableName];
+                    return $this->evaluate($this->variables[$variableName]);
                 } else {
                     throw new Exception("Variable '" . $variableName . "' does not exist");
                 }
             } else if (is_object($this->variables)) {
                 if(property_exists($this->variables, $variableName)) {
-                    return $this->variables->$variableName;
+                    return $this->evaluate($this->variables->$variableName);
                 } else {
                     throw new Exception("Variable '" . $variableName . "' does not exist");
                 }
