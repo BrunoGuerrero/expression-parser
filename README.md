@@ -108,7 +108,9 @@ $value = (new Interpreter($variables))->interpret($parsedExpression);
 // Expression such as "ten + PI * 2" can now be evaluated.
 ```
 
-In a similar fashion, custom functions can also be passed to the interpreter:
+In a similar fashion, custom functions can also be passed to the interpreter.
+
+Functions without arguments can be called in expressions without parentheses. If a variable and a function shares the same name, the variable will be interpreted.
 
 ```php
 $functions = [
@@ -117,7 +119,7 @@ $functions = [
 ];
 $value = (new Interpreter([], $functions))->interpret($parsedExpression);
 
-// Expression such as "10 * double(d6())" can now be evaluated.
+// Expression such as "10 * double(d6)" can now be evaluated.
 ```
 
 Arguments `$variable` and `$functions` can either be arrays or php objects.
