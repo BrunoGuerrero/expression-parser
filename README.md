@@ -16,6 +16,8 @@ As of now, import this library by adding `require_once('ExpressionParser/Express
 Expression can then be interpreted using:
 
 ```php
+$expression = "2+3*min(sqrt(9), 4)-!2"
+
 // Split expression into interpretable tokens
 $tokens = (new Scanner($expression))->scanTokens();
 $parser = new Parser($tokens);
