@@ -1,5 +1,3 @@
-# expression-parser
-
 Simple library allowing for interpreting various expressions computed as numeric values, without using `eval` for safer operations.
 Once computed, expression will always return either `int` of `float` values.
 
