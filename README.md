@@ -112,11 +112,12 @@ In a similar fashion, custom functions can also be passed to the interpreter:
 
 ```php
 $functions = [
-    "double" => function($value) { return $value * 2; }
+    "double" => function($value) { return $value * 2; },
+    "d6" => fn() => rand(1, 6) // With PHP 7.4
 ];
 $value = (new Interpreter([], $functions))->interpret($parsedExpression);
 
-// Expression such as "10 * double(2 + 2)" can now be evaluated.
+// Expression such as "10 * double(d6())" can now be evaluated.
 ```
 
 Arguments `$variable` and `$functions` can either be arrays or php objects.
