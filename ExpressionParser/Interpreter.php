@@ -6,8 +6,6 @@
         public $variables;
         public $functions;
 
-        private $errors = [];
-
         function __construct($variables = [], $functions = []) {
             $this->variables = $variables;
             $this->functions = $functions;
@@ -18,16 +16,9 @@
                 $value = $this->evaluate($expression);
                 return $this->stringify($value);
             } catch (Exception $e) {
-                echo "<b>ERROR - " . $e->getMessage() . "</b>";
+                throw new InterpreterException("<b>ERROR - " . $e->getMessage() . "</b>");
                 return "";
             }
-
-            echo "<br>Following errors have been raised :";
-            echo "<ul>";
-            foreach($this->errors as $error) {
-                echo "<li>" . $error . "<li>";
-            }
-            echo "</ul>";
         }
 
         private function stringify($object) {

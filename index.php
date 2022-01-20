@@ -10,24 +10,29 @@
     }
 
     function evaluate($expression) {
+        $tokens = (new Scanner($expression))->scanTokens();
 
-        $variables = [];
-        $variables["PI"] = M_PI;
-        $variables["b"] = 100;
-        $variables["ten"] = 10;
-
-        $scanner = new Scanner($expression);
-        $tokens = $scanner->scanTokens();
-    
         $parser = new Parser($tokens);
         try {
-            $expression = $parser->parse();
+            $parsedExpression = $parser->parse();
         } catch(Exception $e) {
             die($e->getMessage());
         }
-    
-        $interpreter = new Interpreter($variables);
-        return $interpreter->interpret($expression);
+        
+        $variables = [
+            "PI" => M_PI,
+            "ten" => 10
+        ];
+
+        $functions = [
+            "double" => function($value) { return $value * 2; }
+        ];
+
+        try {
+            return (new Interpreter($variables, $functions))->interpret($parsedExpression);
+        } catch (InterpreterException $e) {
+            echo $e->getMessage();
+        }
     }
 ?>
 
@@ -68,7 +73,7 @@
     <form action="" method="get">
         <label>Expression : </label>
         <input type="text" name="expression" value="<?= $expression ?? "" ?>">
-        <input type="submit">
+        <input type="submit" value="Evaluate">
         <?php
         if($value !== null && $expression  !== null)
             echo "👉 <b>" . $expression . "</b> = <b>" . $value . "</b>";
