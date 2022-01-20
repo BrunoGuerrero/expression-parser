@@ -162,42 +162,13 @@
                     return substr($binValue, $bitPos - 1, 1);
             }
 
-            // Custom function handling
-            if(is_array($this->functions)) {
-                if(isset($this->functions[$functionName])) {
-                    $function = $this->functions[$functionName];
-                }
-            } else if (is_object($this->functions)) {
-                if(property_exists($this->functions, $functionName)) {
-                    $function = $this->functions->$functionName;
-                }
+            $customFuncResult = $this->callCustomFunc($expr);
+            if($customFuncResult !== null) {
+                return $customFuncResult;
+            } else {
+                throw new InterpreterException("Unknown function " . $functionName);
             }
-
-            if(empty($function)) {
-                throw new Exception("Unknown function " . $functionName . "()");
-            }
-
-            $arguments = array_map(function($arg) {
-                return $this->evaluate($arg);
-            }, $expr->arguments);
-
-            $fct = new ReflectionFunction($function);
-            $nbRequiredArguments = $fct->getNumberOfRequiredParameters();
-            $nbArguments = sizeof($expr->arguments);
-
-            if($nbRequiredArguments != $nbArguments) {
-                throw new InterpreterException(
-                    "Function '" . $expr->callee->name->lexeme  . "()' expects " . $nbRequiredArguments . " arguments, "
-                    . $nbArguments . " given.");
-            }
-
-            try {   
-                $result = call_user_func_array($function, $arguments);
-            } catch (Exception $e) {
-                throw new InterpreterException($e->getMessage());
-            }
-
-            return $result;
+            
         }
 
         function visitGroupingExpr($expr) {
@@ -234,17 +205,72 @@
 
             if(is_array($this->variables)) {
                 if(isset($this->variables[$variableName])) {
-                    return $this->evaluate($this->variables[$variableName]);
+                    return $this->variables[$variableName];
                 } else {
-                    throw new Exception("Variable '" . $variableName . "' does not exist");
+                    $result = $this->callCustomFunc($expr);
+                    if($result !== null) {
+                        return $result;
+                    } else {
+                        throw new Exception("Variable '" . $variableName . "' does not exist");
+                    }
                 }
             } else if (is_object($this->variables)) {
                 if(property_exists($this->variables, $variableName)) {
-                    return $this->evaluate($this->variables->$variableName);
+                    return $this->variables->$variableName;
                 } else {
-                    throw new Exception("Variable '" . $variableName . "' does not exist");
+                    $result = $this->callCustomFunc($expr);
+                    if($result !== null) {
+                        return $result;
+                    } else {
+                        throw new Exception("Variable '" . $variableName . "' does not exist");
+                    }
                 }
             }
+        }
+
+        function callCustomFunc($expr) {
+            if(is_a($expr, "CallExpr")) {
+                $functionName = $expr->callee->name->lexeme;
+                $arguments = array_map(function($arg) {
+                    return $this->evaluate($arg);
+                }, $expr->arguments);
+            } else {
+                $functionName = $expr->name->lexeme;
+                $arguments = [];
+            }
+
+            // Custom function handling
+            if(is_array($this->functions)) {
+                if(isset($this->functions[$functionName])) {
+                    $function = $this->functions[$functionName];
+                }
+            } else if (is_object($this->functions)) {
+                if(property_exists($this->functions, $functionName)) {
+                    $function = $this->functions->$functionName;
+                }
+            }
+
+            if(empty($function)) {
+                return null;
+            }
+
+            $fct = new ReflectionFunction($function);
+            $nbRequiredArguments = $fct->getNumberOfRequiredParameters();
+            $nbArguments = is_a($expr, "CallExpr") ? sizeof($expr->arguments) : 0;
+
+            if($nbRequiredArguments != $nbArguments) {
+                throw new InterpreterException(
+                    "Function '" . $functionName  . "()' expects " . $nbRequiredArguments . " arguments, "
+                    . $nbArguments . " given.");
+            }
+
+            try {   
+                $result = call_user_func_array($function, $arguments);
+            } catch (Exception $e) {
+                throw new InterpreterException($e->getMessage());
+            }
+
+            return $result;
         }
 
         public function visitIntervalExpr($expr) {
