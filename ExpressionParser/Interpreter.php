@@ -34,7 +34,7 @@
 
         function visitBinaryExpr($expr) {
             $left = $this->evaluate($expr->left);
-            $right = $this->evaluate($expr->right); 
+            $right = $this->evaluate($expr->right);
         
             switch ($expr->operator->type) {
                 case TokenType::MINUS:
@@ -47,6 +47,7 @@
                     } else {
                         throw new InterpreterException("Division by zero: " . $left . "/" . $right);
                     }
+                case TokenType::IMPLICIT_FACTOR:
                 case TokenType::STAR:
                     return $left * $right;
                 case TokenType::PERCENT:

@@ -10,14 +10,7 @@
     }
 
     function evaluate($expression) {
-        $tokens = (new Scanner($expression))->scanTokens();
-
-        $parser = new Parser($tokens);
-        try {
-            $parsedExpression = $parser->parse();
-        } catch(Exception $e) {
-            die($e->getMessage());
-        }
+        $parser = new ExpressionParser();
         
         $variables = [
             "PI" => M_PI,
@@ -26,14 +19,15 @@
 
         $functions = [
             "double" => function($value) { return $value * 2; },
-            "d6" => fn() => rand(1, 6)
+            "d6" => function() { return rand(1, 6); },
         ];
 
         try {
-            return (new Interpreter($variables, $functions))->interpret($parsedExpression);
-        } catch (InterpreterException $e) {
+            return $parser->evaluate($expression, $variables, $functions);
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
+
     }
 ?>
 
@@ -175,6 +169,9 @@
                 <hr>
                 <label>Custom variables</label> <code><b>PI</b> + <b>ten</b></code>
                 <small>Values for custom variables can be passed to interpreter.</small>
+                <hr>
+                <label>Custom functions</label> <code><b>double(2)</b> + <b>d6</b></code>
+                <small>Custom functions can be passed to the interpreter. Argument-less functions can be called without parentheses.</small>
                 <hr>
             </td>
         </tr>

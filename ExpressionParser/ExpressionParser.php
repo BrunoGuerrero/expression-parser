@@ -18,18 +18,22 @@
     include ('ExpressionInterpreter.php');
 
     class ExpressionParser {
-        public static function evaluate($expression, $variables = []) {
+        
+        public function parse($expression) {
 
-            $scanner = new Scanner($expression);
-            $tokens = $scanner->scanTokens();
-        
-            $parser = new Parser($tokens);
-            try {
-                $parsedExpression = $parser->parse();
-            } catch(Exception $e) {
-                die($e->getMessage());
-            }
-        
-            return (new Interpreter($variables))->interpret($parsedExpression);
+            $scannedExpression = (new Scanner($expression))->scanTokens();
+            $parsedExpression = (new Parser($scannedExpression))->parse();
+
+            return $parsedExpression;
+        }
+
+        public function interpret($tokens, $variables = [], $functions = []) {
+            return  (new Interpreter($variables, $functions))->interpret($tokens);
+        }
+
+        public function evaluate($expression, $variables = [], $functions = []) {
+
+            $parsedExpression = $this->parse($expression);
+            return $this->interpret($parsedExpression, $variables, $functions);
         }
     }

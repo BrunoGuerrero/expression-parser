@@ -58,12 +58,13 @@
 
             // Implicit factor : unary followed by string
             while($this->check(TokenType::IDENTIFIER)) {
-                $operator = new Token(TokenType::STAR, TokenType::STAR, null, 0);
+                $operator = new Token(TokenType::IMPLICIT_FACTOR, TokenType::STAR, null, 0);
                 $right = $this->unary();
                 $expr = new BinaryExpr($expr, $operator, $right);
             }
 
-            while ($this->match(TokenType::SLASH, TokenType::DOUBLE_STAR, TokenType::STAR, TokenType::HAT, TokenType::PERCENT, TokenType::TERNARY)) {
+            while ($this->match(TokenType::SLASH, TokenType::DOUBLE_STAR, TokenType::STAR, TokenType::IMPLICIT_FACTOR, 
+                                TokenType::HAT, TokenType::PERCENT, TokenType::TERNARY)) {
                 $operator = $this->previous();
                 $right = $this->unary();
                 if(!$right) {

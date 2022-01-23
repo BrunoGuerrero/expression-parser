@@ -14,6 +14,7 @@
         public const SLASH = '/';
         public const STAR = '*';
         public const DOUBLE_STAR = '**';
+        public const IMPLICIT_FACTOR = '';
         public const PERCENT = '%';
         public const HAT = '^';
         public const BANG = '!';
