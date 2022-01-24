@@ -46,6 +46,23 @@
                         throw new InterpreterException("Division by zero: " . $left . "/" . $right);
                     }
                 case TokenType::IMPLICIT_FACTOR:
+                    $rightExpr = $expr->right;
+                    if(is_a($rightExpr, "VariableExpr")) {
+                        $functionName = $rightExpr->name->lexeme;
+                    } else if(is_a($rightExpr, "CallExpr")) {
+                        $functionName = $rightExpr->callee->name->lexeme;
+                    }
+
+                    $userDefined = $this->getUserDefined($functionName);
+                    if(is_array($userDefined) && $userDefined[1] === true) {
+                        $total = 0;
+                        for($i = 0; $i < $left; $i++) {
+                            $total += $this->evaluate($expr->right);
+                        }
+                        return $total;
+                    }
+
+                // Don't break : if right is not volatile, fallback to STAR mode :
                 case TokenType::STAR:
                     return $left * $right;
                 case TokenType::PERCENT:
@@ -169,7 +186,7 @@
             if($customFuncResult !== null) {
                 return $customFuncResult;
             } else {
-                throw new InterpreterException("Unknown function " . $functionName);
+                throw new InterpreterException("Unknown function '" . $functionName . "'");
             }
             
         }
@@ -211,7 +228,7 @@
                 throw new Exception("Variable or function '" . $variableName . "' could not be found");
             }
 
-            if(is_callable($variable)) {
+            if(is_array($variable) || is_callable($variable)) {
                 return $this->callCustomFunc($expr);
             } else {
                 return $variable;
@@ -233,6 +250,8 @@
 
             if($function === null) {
                 return null;
+            } else if (is_array($function)) {
+                $function = $function[0];
             } else if(!is_callable($function)) {
                 throw new InterpreterException("Variable '" . $functionName . "' is not a function.");
             }

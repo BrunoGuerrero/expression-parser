@@ -16,7 +16,15 @@
             "PI" => M_PI,
             "ten" => 10,
             "double" => function($value) { return $value * 2; },
-            "d6" => function() { return rand(1, 6); },
+            "random" => function() { return rand(1, 100); },
+            "d" => [function($value) { return rand(1, $value); }, true],
+            "coin" => [function() { return rand(0, 1); }, true],
+            "d2" => [function() { return rand(1, 2); }, true],
+            "d4" => [function() { return rand(1, 4); }, true],
+            "d6" => [function() { return rand(1, 6); }, true],
+            "d10" => [function() { return rand(1, 10); }, true],
+            "d12" => [function() { return rand(1, 12); }, true],
+            "d20" => [function() { return rand(1, 20); }, true],
         ];
 
         try {

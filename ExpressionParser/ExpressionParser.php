@@ -31,12 +31,6 @@
             return  (new Interpreter($userDefined))->interpret($tokens);
         }
 
-        /*
-        public function interpret($tokens, $variables = [], $functions = []) {
-            return  (new Interpreter($variables, $functions))->interpret($tokens);
-        }
-        */
-
         public function evaluate($expression, $userDefined = []) {
 
             $parsedExpression = $this->parse($expression);
