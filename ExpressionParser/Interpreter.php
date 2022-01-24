@@ -138,12 +138,16 @@
                         min($this->arg($expr, 2), $this->arg($expr, 0))                  
                     );
                 case "swap":
-                    if($this->arg($expr, 0) == $this->arg($expr, 1)) {
-                        return $this->arg($expr, 2);
-                    } else if($this->arg($expr, 0) == $this->arg($expr, 2)) {
-                        return $this->arg($expr, 1);
+                    $value = $this->arg($expr, 0);
+                    $swap1 = $this->arg($expr, 1);
+                    $swap2 = $this->arg($expr, 2);
+
+                    if($value === $swap1) {
+                        return $swap2;
+                    } else if($value === $swap2) {
+                        return $swap1;
                     } else {
-                        return $this->arg($expr, 0);
+                        return $value;
                     }
 
                 /* Extra functions */
