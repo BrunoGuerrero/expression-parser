@@ -20,6 +20,7 @@
         public const BANG = '!';
         public const INTERROGATION = '?';
         public const TERNARY = '?:';
+        public const BACKSLASH = '\\';
 
         public const ARROW = '=>';
         public const SPACESHIP = '<=>';

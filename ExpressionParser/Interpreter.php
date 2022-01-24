@@ -4,6 +4,7 @@
     class Interpreter implements Visitor {
 
         public $userDefined;
+        public $groups = [];
 
         function __construct($userDefined = []) {
             $this->userDefined = $userDefined;
@@ -188,11 +189,12 @@
             } else {
                 throw new InterpreterException("Unknown function '" . $functionName . "'");
             }
-            
         }
 
         function visitGroupingExpr($expr) {
-            return $this->evaluate($expr->expression);
+            $result = $this->evaluate($expr->expression);
+            $this->groups[] = $result;
+            return $result;
         }
 
         function visitLiteralExpr($expr) {
@@ -213,6 +215,15 @@
                     return ($right == 0) ? 1 : $right;
                 case TokenType::PIPE:
                     return abs($right);
+                case TokenType::BACKSLASH:
+                    if($right <= 0) {
+                        throw new InterpreterException("Back references start at position 1, '\\" . $right . "' given.");
+                    }
+                    if(isset($this->groups[$right - 1])) {
+                        return $this->groups[$right - 1];
+                    } else {
+                        throw new InterpreterException("Back reference to group at position '\\" . $right . "' did not return any value");
+                    }
             }
         
             // Unreachable.

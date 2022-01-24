@@ -77,7 +77,7 @@
         }
 
         private function unary() {
-            if ($this->match(TokenType::BANG, TokenType::MINUS, TokenType::INTERROGATION, TokenType::TILDE)) {
+            if ($this->match(TokenType::BANG, TokenType::MINUS, TokenType::INTERROGATION, TokenType::TILDE, TokenType::BACKSLASH)) {
                 $operator = $this->previous();
                 $right = $this->unary();
                 return new UnaryExpr($operator, $right);

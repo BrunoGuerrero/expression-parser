@@ -66,6 +66,8 @@
                 case '&': 
                     $this->addToken(($this->match('&')) ? TokenType::DOUBLE_ESP : TokenType::ESP); 
                     break;
+                case '\\': 
+                    $this->addToken(TokenType::BACKSLASH); break; 
                 case ' ':
                 case '\r':
                 case '\t':
