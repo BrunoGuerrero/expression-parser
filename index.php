@@ -12,18 +12,15 @@
     function evaluate($expression) {
         $parser = new ExpressionParser();
         
-        $variables = [
+        $userDefined = [
             "PI" => M_PI,
             "ten" => 10,
-        ];
-
-        $functions = [
             "double" => function($value) { return $value * 2; },
             "d6" => function() { return rand(1, 6); },
         ];
 
         try {
-            return $parser->evaluate($expression, $variables, $functions);
+            return $parser->evaluate($expression, $userDefined);
         } catch (Exception $e) {
             echo $e->getMessage();
         }

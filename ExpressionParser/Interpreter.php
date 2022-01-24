@@ -3,12 +3,10 @@
 
     class Interpreter implements Visitor {
 
-        public $variables;
-        public $functions;
+        public $userDefined;
 
-        function __construct($variables = [], $functions = []) {
-            $this->variables = $variables;
-            $this->functions = $functions;
+        function __construct($userDefined = []) {
+            $this->userDefined = $userDefined;
         }
 
         public function interpret($expression) { 
@@ -22,7 +20,7 @@
         }
 
         private function stringify($object) {
-            if ($object === null) return "nil";
+            if ($object === null) return "null";
         
             if (is_numeric($object)) {
               $text = $object . "";
@@ -156,7 +154,7 @@
                 case "bit":
                     $bitPos = $this->arg($expr, 1);
                     if($bitPos <= 0) {
-                        throw new Exception("Bit value in bit() function starts at position 1,  " . $this->arg($expr, 1) . " given.");
+                        throw new Exception("Bit value in bit() function starts at position 1,  " . $bitPos . " given.");
                     }
                     $binValue = strval(decbin($this->arg($expr, 0)));
                     $bit = strlen($binValue) - $bitPos;
@@ -207,29 +205,16 @@
         function visitVariableExpr($expr) {
 
             $variableName = $expr->name->lexeme;
+            $variable = $this->getUserDefined($variableName);
 
-            if(is_array($this->variables)) {
-                if(isset($this->variables[$variableName])) {
-                    return $this->variables[$variableName];
-                } else {
-                    $result = $this->callCustomFunc($expr);
-                    if($result !== null) {
-                        return $result;
-                    } else {
-                        throw new Exception("Variable '" . $variableName . "' does not exist");
-                    }
-                }
-            } else if (is_object($this->variables)) {
-                if(property_exists($this->variables, $variableName)) {
-                    return $this->variables->$variableName;
-                } else {
-                    $result = $this->callCustomFunc($expr);
-                    if($result !== null) {
-                        return $result;
-                    } else {
-                        throw new Exception("Variable '" . $variableName . "' does not exist");
-                    }
-                }
+            if($variable == null) {
+                throw new Exception("Variable or function '" . $variableName . "' could not be found");
+            }
+
+            if(is_callable($variable)) {
+                return $this->callCustomFunc($expr);
+            } else {
+                return $variable;
             }
         }
 
@@ -244,19 +229,12 @@
                 $arguments = [];
             }
 
-            // Custom function handling
-            if(is_array($this->functions)) {
-                if(isset($this->functions[$functionName])) {
-                    $function = $this->functions[$functionName];
-                }
-            } else if (is_object($this->functions)) {
-                if(property_exists($this->functions, $functionName)) {
-                    $function = $this->functions->$functionName;
-                }
-            }
+            $function = $this->getUserDefined($functionName);
 
-            if(empty($function)) {
+            if($function === null) {
                 return null;
+            } else if(!is_callable($function)) {
+                throw new InterpreterException("Variable '" . $functionName . "' is not a function.");
             }
 
             $fct = new ReflectionFunction($function);
@@ -321,6 +299,15 @@
                 throw new Exception("Could not find parameter at position " . ($index + 1));
             }
             return (float)$this->evaluate($expr->arguments[$index]);
+        }
+
+        private function getUserDefined($name) {
+            if(is_array($this->userDefined) && isset($this->userDefined[$name])) {
+                return $this->userDefined[$name];
+            } else if (is_object($this->userDefined) && property_exists($this->userDefined, $name)) {
+                return $this->userDefined->$name;
+            }
+            return null;
         }
 
     }

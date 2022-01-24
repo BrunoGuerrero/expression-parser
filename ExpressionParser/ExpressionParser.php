@@ -27,13 +27,19 @@
             return $parsedExpression;
         }
 
+        public function interpret($tokens, $userDefined = []) {
+            return  (new Interpreter($userDefined))->interpret($tokens);
+        }
+
+        /*
         public function interpret($tokens, $variables = [], $functions = []) {
             return  (new Interpreter($variables, $functions))->interpret($tokens);
         }
+        */
 
-        public function evaluate($expression, $variables = [], $functions = []) {
+        public function evaluate($expression, $userDefined = []) {
 
             $parsedExpression = $this->parse($expression);
-            return $this->interpret($parsedExpression, $variables, $functions);
+            return $this->interpret($parsedExpression, $userDefined);
         }
     }
