@@ -151,6 +151,6 @@ $value = (new Interpreter($userDefined))->interpret($parsedExpression);
 // '2d6' will trigger two d6() calls, and return the total of their results
 ```
 
-### Todo
+## Todo
 - Allowing for user-defined variables to be expressions too,
 - Allowing for enabling / disabling features of interpreter
