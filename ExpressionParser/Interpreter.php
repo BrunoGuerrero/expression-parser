@@ -235,7 +235,7 @@
             $variableName = $expr->name->lexeme;
             $variable = $this->getUserDefined($variableName);
 
-            if($variable == null) {
+            if($variable === null) {
                 throw new Exception("Variable or function '" . $variableName . "' could not be found");
             }
 
