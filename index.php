@@ -9,14 +9,20 @@
         $value = evaluate($expression);
     }
 
-    function evaluate($expression) {        
+    function evaluate($expression) {       
+        $parser = new ExpressionParser();
+        
         $userDefined = [
+            "tau" => "PI/2",
+            "dice" => "double(d6) + 1",
             "PI" => M_PI,
             "ten" => 10,
             "double" => function($value) { return $value * 2; },
             "d" => [function($value) { return rand(1, $value); }, true],
             "d6" => [function() { return rand(1, 6); }, true],
         ];
+
+        $userDefined = $parser->preProcess($userDefined);
 
         try {
             return (new ExpressionParser())->evaluate($expression, $userDefined);
