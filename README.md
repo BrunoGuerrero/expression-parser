@@ -150,3 +150,7 @@ $value = (new Interpreter($userDefined))->interpret($parsedExpression);
 // '10d(100)' will trigger 10 d(100) calls, and return the total of their results,
 // '2d6' will trigger two d6() calls, and return the total of their results
 ```
+
+### Todo
+- Allowing for user-defined variables to be expressions too,
+- Allowing for enabling / disabling features of interpreter
