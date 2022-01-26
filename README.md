@@ -154,7 +154,7 @@ All the following operators return a value built from a bitwise operation. These
 | Function | Notation |
 |:---------|:---------|
 | Bitwise and | `a & b` |
-| Bitwise or | `a | b` | 
+| Bitwise or | `a \| b` | 
 | Bitwise xor | `a ^ b` |
 | Bitwise not | `~a` |
 | Left bit shift | `a << b` |
@@ -170,6 +170,8 @@ Using back-reference allows to re-use the result of a grouping notation used ear
 - Example : `(2 + 3) * \1` will be equivalent to `(2 + 3) * (2 + 3)`. 
 - This can be useful to retrieve a value that has been generated at random, for expressions such as `([1,100]) + sqrt(\1)`
 - `pos` value starts at 1
+- Inner parentheses have higher precedence:  
+![equation](https://user-images.githubusercontent.com/16825882/151217693-62ba1e7f-f179-4195-b0a6-3062246a14ec.png)
 
 ## Expanding parser capabilities
 ### Custom variables and functions
@@ -188,7 +190,7 @@ $userDefined = [
 ]
 $value = (new Interpreter($userDefined))->interpret($parsedExpression);
 
-// Expression such as "10 * double(d6 + PI)" can now be evaluated.
+// Expressions such as "10 * double(d6 + PI)" can now be evaluated.
 ```
 
 ### Sub-expressions as user-defined variables
@@ -207,21 +209,22 @@ $userDefined = [
   "d20" => fn() => rand(1, 20) // Same syntax as above, with PHP 7.4 or above
 ]
 
-$userDefined = $parser->preProcess($userDefined);
+$userDefined = $parser->preProcess($userDefined); // Reorders, pre-compute and checks integrity of user defined elements
+
 try {
     return (new ExpressionParser())->evaluate($expression, $userDefined);
 } catch (InterpreterException $e) {
     echo $e->getMessage();
 }
 
-// Expression such as "10 * double(d6 + tau)" can now be evaluated.
+// Expressions such as "10 * double(d6 + tau)" can now be evaluated.
 ```
 
 ### Implicit factor and volatile functions
 
 Custom variables and functions allow for implicit multiplication in expression, such as `2PI+2` or `10double(PI)`. 
 
-**Sometimes, a function is meant to be called multiple times,** rather than being multiplied by its factor; this can be achieved **by defining a function as volatile**. This can be achieved by passing the custom function into an array, and setting the second element of the array as `true`:
+**Sometimes, a function is meant to be called multiple times, rather than being multiplied by its factor**; this can be done **by defining a function as volatile**. This can be achieved by passing the custom function into an array, and setting the second element of the array as `true`:
 
 ```php
 $userDefined = [
@@ -238,5 +241,5 @@ $value = (new Interpreter($userDefined))->interpret($parsedExpression);
 // '10 * d(100)' will however compute d(100) once, and multiply result by 10.
 
 // '2d6' will trigger two d6() calls, and return the total of their results. 
-// '10 * d(100)' will however call d6() once, and multiply result by 2.
+// '2 * d6' will however call d6() once, and multiply result by 2.
 ```
