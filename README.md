@@ -200,7 +200,7 @@ $parser = new ExpressionParser();
 
 // Calling the preProcess() methods allows for ordering variables in any fashion
 $userDefined = [
-  "tau" => "2PI",
+  "tau" => "2 * PI",
   "PI" => M_PI,
   "double" => function($value) { return $value * 2; },
   "d6" => function() { return rand(1, 6); }, // Expecting no argument, d6() can be called without parentheses as simply 'd6'
