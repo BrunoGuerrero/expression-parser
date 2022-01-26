@@ -171,7 +171,7 @@ Using back-reference allows to re-use the result of a grouping notation used ear
 - This can be useful to retrieve a value that has been generated at random, for expressions such as `([1,100]) + sqrt(\1)`
 - `pos` value starts at 1
 - Inner parentheses have higher precedence:  
-![equation](https://user-images.githubusercontent.com/16825882/151217693-62ba1e7f-f179-4195-b0a6-3062246a14ec.png)
+![equation](https://user-images.githubusercontent.com/16825882/151226242-6bae1c1d-6b3f-400a-a10b-f726582b2c66.png)
 
 ## Expanding parser capabilities
 ### Custom variables and functions
