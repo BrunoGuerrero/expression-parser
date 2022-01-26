@@ -235,8 +235,8 @@ $value = (new Interpreter($userDefined))->interpret($parsedExpression);
 // '4double(20)' will be equivalent to 4 * double(20)
 
 // '10d(100)' will trigger 10 d(100) calls, and return the total of their results. 
-// 10 * d(100) will however compute d(100) once, and multiply result by 10.
+// '10 * d(100)' will however compute d(100) once, and multiply result by 10.
 
 // '2d6' will trigger two d6() calls, and return the total of their results. 
-// 10 * d(100) will however call d6() once, and multiply result by 2.
+// '10 * d(100)' will however call d6() once, and multiply result by 2.
 ```
