@@ -136,7 +136,7 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
 | Random in range | `[a, b]` | Returns a random integer value within included boundaries `a` and `b`. |
-| Random in set | `{a, b, c[, ...]}` | Returns a random value among the ones defined in set. |
+| Random in set | `{a, b, c, ...}` | Returns a random value among the ones defined in set. |
 | Weighted random | `{a=>x, b=>y, c}` | Returns random value in set, with weighted probabilities. |
 
 Regarding weighted randoms: 
