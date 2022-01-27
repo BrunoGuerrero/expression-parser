@@ -10,7 +10,7 @@ This library has been developed for a dedicated purpose and is released if it ma
 
 ## Acknowledgment
 
-Architecture (And most of the code) is directly inspired by @munificent/craftinginterpreters rather excellent book [Crafting Interpreters](http://craftinginterpreters.com)
+Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent) rather excellent book [Crafting Interpreters](http://craftinginterpreters.com). Most of the code is ported either from selected parts of the book examples or from the java implementation [available on the book's repository](https://github.com/munificent/craftinginterpreters/tree/master/java/com/craftinginterpreters/lox), with some liberties taken by yours truly to craft some new features.
 
 ## Documentation
 
@@ -169,8 +169,7 @@ Using back-reference allows to re-use the result of a grouping notation used ear
 
 - Example : `(2 + 3) * \1` will be equivalent to `(2 + 3) * (2 + 3)`. 
 - This can be useful to retrieve a value that has been generated at random, for expressions such as `([1,100]) + sqrt(\1)`
-- `pos` value starts at 1
-- Inner parentheses have higher precedence:  
+- `pos` value starts at 1, starting with the most leftward group, with inner parentheses having higher precedence:  
 ![equation](https://user-images.githubusercontent.com/16825882/151226242-6bae1c1d-6b3f-400a-a10b-f726582b2c66.png)
 
 ## Expanding parser capabilities
