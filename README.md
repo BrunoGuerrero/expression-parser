@@ -6,7 +6,7 @@ Once computed, expression will always return either `int` or `float` values.
 
 ## Disclaimer
 
-This library has been developed for a dedicated purpose and is released if it may help. While everything is working as intended, this library is still in beta.
+This library has been developed for a dedicated purpose and is released for anyone to toy around with. While everything is working as intended, this library is offered as is.
 
 ## Acknowledgment
 
