@@ -140,9 +140,10 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Weighted random | `{a=>x, b=>y, c}` | Returns random value in set, with weighted probabilities. |
 
 Regarding weighted randoms: 
-- Weights in a same set are automatically adjusted so that their sum is 100.
-- If a value has no defined weight, its weight will be automatically set so that the total of weights in the set is 100. 
-- If the total of user-defined weights is already over 100, unweighted values will have their weight automatically set at 100.
+- All unweighted values have a weight of 1
+- Weighted values are relative to 1, meaning a weight of 2 have 2x more chances to be picked, while a weight of 0.5 have 2x less chances of being picked.
+- Weights can go down to 6 decimal digits
+
 ### Bit manipulation
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
