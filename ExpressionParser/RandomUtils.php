@@ -7,12 +7,15 @@
 
             $cursor = 0;
             foreach ($probabilities as $key => $probability) {
+                if($probability < 0) {
+                    throw new Exception("Probability weight cannot be negative, " . $probability . " given.");
+                }
                 $cursor += $probability * $precision;
                 if($rand <= $cursor) {
                     return $key;
                 }
             }
-            return $default;
+            return;
         }
     }
 

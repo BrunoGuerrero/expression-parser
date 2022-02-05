@@ -1,5 +1,5 @@
 <?php 
-    include_once("./ExpressionParser/ExpressionParser.php"); 
+    include_once("../ExpressionParser/ExpressionParser.php"); 
     
     $expression = null;
     $value = null;
@@ -35,6 +35,11 @@
     <style>
         * {
             font-family: monospace;
+        }
+        input[type="text"] {
+            height: 40px;
+            width: 50vw;
+            font-size: 1.2em;
         }
         td {
             width: 25vw;
@@ -163,8 +168,8 @@
                 <hr>
                 <label>Weighted random</label> <code><b>{</b>a<b>=>x</b>, b<b>=>y</b>, c<b>}</b></code><br>
                 <small>Returns value at random with weighted probabilities for each value. 
-                    <br>If total of probabilities < 100, probabilities are readjusted to be 100 total.
-                    <br>Unweighted values are automatically adjusted to be 100 total. However, if total of weighted values is already over 100, unweighted values are set to 100.
+                    <br>Unweighted values are automatically set at 1.
+                    <br>A weight of 2 have 2x more chances to be picked, a weight of 0.5 have 2x less chances of being picked.
                 </small>
                 <hr>
                 <label>Custom variables</label> <code><b>PI</b> + <b>ten</b></code>
