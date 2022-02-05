@@ -1,5 +1,5 @@
 <?php
-    include_once('MathUtils.php');
+    include_once('RandomUtils.php');
 
     class Interpreter implements Visitor {
 
@@ -297,26 +297,13 @@
             
             foreach($expr->elements as $element) {
                 if($element->probability !== null) {
-                    $totalProbabilities += $this->evaluate($element->probability);
-                    $nbWeightlessValues++;
-                }
-            }
-
-            $nbRemainingValues = sizeof($expr->elements) - $nbWeightlessValues;
-
-            foreach($expr->elements as $element) {
-                if($element->probability !== null) {
                     $parameters[$this->evaluate($element->value)] = $this->evaluate($element->probability);
                 } else {
-                    if($totalProbabilities < 100) {
-                        $parameters[$this->evaluate($element->value)] = floor((100 - $totalProbabilities) / $nbRemainingValues);
-                    } else {
-                        $parameters[$this->evaluate($element->value)] = 100;
-                    }
+                    $parameters[$this->evaluate($element->value)] = 1;
                 }
             }
 
-            return MathUtils::weightedRandom($parameters, 0);
+            return RandomUtils::weightedRandom($parameters);
         }
 
         private function evaluate($expr) {

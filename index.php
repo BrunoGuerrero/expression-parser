@@ -13,8 +13,7 @@
         $parser = new ExpressionParser();
         
         $userDefined = [
-            "tau" => "PI/2",
-            "dice" => "double(d6) + 1",
+            "tau" => "2PI",
             "PI" => M_PI,
             "ten" => 10,
             "double" => function($value) { return $value * 2; },
