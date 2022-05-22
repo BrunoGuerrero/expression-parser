@@ -118,7 +118,7 @@
         }
     
         private function isAlphaNumeric($c) {
-            return $this->isAlpha($c) || $this->isDigit($c);
+            return $this->isAlpha($c) || $this->isDigit($c) || $c === '_';
         }
 
         private function advance() {

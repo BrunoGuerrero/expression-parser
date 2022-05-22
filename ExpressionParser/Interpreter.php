@@ -123,10 +123,13 @@
                 case "atan":
                     return atan($this->arg($expr, 0));
                 case "ceil":
+                case "cl":
                     return ceil($this->arg($expr, 0));
                 case "floor":
+                case "fl":
                     return floor($this->arg($expr, 0));
                 case "round":
+                case "rn":
                     return round($this->arg($expr, 0));
                 case "abs":
                     return abs($this->arg($expr, 0));  

@@ -11,7 +11,7 @@
                 die($e->getMessage());
             }
 
-            return (int)(new Interpreter($variables))->interpret($expressions);
+            return (new Interpreter($variables))->interpret($expressions);
         }
 
     }

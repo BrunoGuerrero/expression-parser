@@ -110,13 +110,4 @@
                 return;
             }
         }
-
-        private function arrayHasString($array) {
-            foreach($array as $element) {
-                if(is_string($element)) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
