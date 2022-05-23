@@ -114,6 +114,13 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Clamp | `clamp(val, a, b)` | Returns `a` if `val < a`, `b` if `val > b`, returns `val` otherwise. |
 | Swap | `swap(val, a, b)` | Returns `b` if `val = a`, `a` if `val = b`, returns `val` otherwise. |
 
+### Rounding functions	
+| Function | Notation | Behaviour |
+|:---------|:---------|:---------|
+| Round | `round(a)`, `rn(a)` | Returns value of `a` rounded to closest integer. |
+| Floor | `floor(a)`, `fl(a)` | Returns value of `a` rounded to previous closest integer. |
+| Ceil | `ceil(a)`, `cl(a)` | Returns value of `a` rounded to next closest integer. |
+
 ### Math functions	
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
