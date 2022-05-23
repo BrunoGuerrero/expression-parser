@@ -21,6 +21,7 @@ Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent
   - [Modifiers](#modifiers)
   - [Comparison operators](#comparison-operators)
   - [Comparison functions](#comparison-functions)
+  - [Rounding functions](#rounding-functions)
   - [Math functions](#math-functions)
   - [Logic operators](#logic-operators)
   - [Random expressions](#random-expressions)
