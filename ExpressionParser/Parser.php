@@ -64,7 +64,8 @@
             }
 
             while ($this->match(TokenType::SLASH, TokenType::DOUBLE_STAR, TokenType::STAR, TokenType::IMPLICIT_FACTOR, 
-                                TokenType::HAT, TokenType::PERCENT, TokenType::TERNARY)) {
+                                TokenType::HAT, TokenType::PERCENT, TokenType::TERNARY, 
+                                TokenType::DOUBLE_LEFT_CARET, TokenType::DOUBLE_RIGHT_CARET)) {
                 $operator = $this->previous();
                 $right = $this->unary();
                 if(!$right) {

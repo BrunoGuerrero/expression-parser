@@ -79,6 +79,9 @@
                 case TokenType::ESP:
                     $result = ($left & $right);
                     return intval($result);
+                case TokenType::HAT:
+                    $result = ($left ^ $right);
+                    return intval($result);
                 case TokenType::PIPE:
                     $result = ($left | $right);
                     return intval($result);
@@ -88,6 +91,14 @@
                 case TokenType::DOUBLE_ESP:
                     $result = ($left && $right);
                     return intval($result);
+
+                // Bitshift
+                case TokenType::DOUBLE_LEFT_CARET:
+                    $result = ($left << $right);
+                    return $result;
+                case TokenType::DOUBLE_RIGHT_CARET:
+                    $result = ($left >> $right);
+                    return $result;
 
                 // Comparisons
                 case TokenType::EQUAL:

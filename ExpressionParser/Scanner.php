@@ -56,12 +56,20 @@
                     $this->addToken($this->match('>') ? TokenType::ARROW : TokenType::EQUAL);
                     break;
                 case '<': 
-                    $this->addToken(($this->match('='))
-                        ? (($this->match(">") ? TokenType::SPACESHIP : TokenType::LESS_EQUAL))
-                        : TokenType::LESS); 
+                    if($this->match('<')) {
+                        $this->addToken(TokenType::DOUBLE_LEFT_CARET);
+                    } else {
+                        $this->addToken(($this->match('='))
+                            ? (($this->match(">") ? TokenType::SPACESHIP : TokenType::LESS_EQUAL))
+                            : TokenType::LESS); 
+                    }
                     break;
                 case '>': 
-                    $this->addToken(($this->match('=')) ? TokenType::GREATER_EQUAL : TokenType::GREATER); 
+                    if($this->match('>')) {
+                        $this->addToken(TokenType::DOUBLE_RIGHT_CARET);
+                    } else {
+                        $this->addToken(($this->match('=')) ? TokenType::GREATER_EQUAL : TokenType::GREATER); 
+                    }
                     break;
                 case '&': 
                     $this->addToken(($this->match('&')) ? TokenType::DOUBLE_ESP : TokenType::ESP); 

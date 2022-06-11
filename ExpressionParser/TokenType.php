@@ -39,6 +39,8 @@
         public const XOR = "XOR";
         public const AND = "AND";
         public const OR = "OR";
+        public const DOUBLE_RIGHT_CARET = '>>';
+        public const DOUBLE_LEFT_CARET = '<<';
 
         public const IDENTIFIER = 'ID';
         public const STR = 'S';
