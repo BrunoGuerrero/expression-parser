@@ -21,6 +21,7 @@ Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent
   - [Modifiers](#modifiers)
   - [Comparison operators](#comparison-operators)
   - [Comparison functions](#comparison-functions)
+  - [Rounding functions](#rounding-functions)
   - [Math functions](#math-functions)
   - [Logic operators](#logic-operators)
   - [Random expressions](#random-expressions)
@@ -113,6 +114,13 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Max value | `max(a, b)` | Returns maximum value between `a` and `b`. |
 | Clamp | `clamp(val, a, b)` | Returns `a` if `val < a`, `b` if `val > b`, returns `val` otherwise. |
 | Swap | `swap(val, a, b)` | Returns `b` if `val = a`, `a` if `val = b`, returns `val` otherwise. |
+
+### Rounding functions	
+| Function | Notation | Behaviour |
+|:---------|:---------|:---------|
+| Round | `round(a)`, `rn(a)` | Returns value of `a` rounded to closest integer. |
+| Floor | `floor(a)`, `fl(a)` | Returns value of `a` rounded to previous closest integer. |
+| Ceil | `ceil(a)`, `cl(a)` | Returns value of `a` rounded to next closest integer. |
 
 ### Math functions	
 | Function | Notation | Behaviour |
