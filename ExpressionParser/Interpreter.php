@@ -179,6 +179,33 @@
                     } else {
                         return $value;
                     }
+                case "gcd":
+                    $value1 = $this->arg($expr, 0);
+                    $value2 = $this->arg($expr, 1);
+
+                    if((int)$value1 != $value1) {
+                        throw new Exception("gcd() function only expects integers, " . $value1 . " received.");
+                    }
+
+                    if((int)$value2 != $value2) {
+                        throw new Exception("gcd() function only expects integers, " . $value2 . " received.");
+                    }
+
+                    return gmp_intval(gmp_gcd(intval($value1), intval($value2)));
+
+                case "lcm":
+                    $value1 = $this->arg($expr, 0);
+                    $value2 = $this->arg($expr, 1);
+
+                    if((int)$value1 != $value1) {
+                        throw new Exception("lcm() function only expects integers, " . $value1 . " received.");
+                    }
+
+                    if((int)$value2 != $value2) {
+                        throw new Exception("lcm() function only expects integers, " . $value2 . " received.");
+                    }
+
+                    return gmp_intval(gmp_lcm(intval($value1), intval($value2)));
 
                 /* Extra functions */
                 case "bin":
