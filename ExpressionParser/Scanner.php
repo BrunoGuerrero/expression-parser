@@ -33,6 +33,7 @@
                 case '[': $this->addToken(TokenType::LEFT_SQ_BRACE); break;
                 case ']': $this->addToken(TokenType::RIGHT_SQ_BRACE); break;
                 case ',': $this->addToken(TokenType::COMMA); break;
+                case ':': $this->addToken(TokenType::COLON); break;
                 case '.': $this->addToken(TokenType::DOT); break;
                 case '-': $this->addToken(TokenType::MINUS); break;
                 case '+': $this->addToken(TokenType::PLUS); break;

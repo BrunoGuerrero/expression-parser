@@ -132,7 +132,6 @@
 
             if ($this->match(TokenType::PIPE)) {
                 $expr = $this->expression();
-                //var_dump($expr);
                 $pipe = $this->consume(TokenType::PIPE, "Expected '|' after abs expression, got '" . $this->peek()->lexeme . "'");
                 return new UnaryExpr($pipe, $expr);
             }
@@ -151,7 +150,11 @@
 
             if ($this->match(TokenType::LEFT_SQ_BRACE)) {
                 $min = $this->expression();
-                $this->consume(TokenType::COMMA, "Expected comma, got '" . $this->peek()->lexeme . "'");
+                if($this->peek()->type === TokenType::COLON) {
+                    $this->consume(TokenType::COLON, "");
+                } else {
+                    $this->consume(TokenType::COMMA, "Expected comma or colon, got '" . $this->peek()->lexeme . "'");
+                }
                 $max = $this->expression();
                 $this->consume(TokenType::RIGHT_SQ_BRACE, "Expected closing ], got '" . $this->peek()->lexeme . "'");
                 return new IntervalExpr($min, $max);

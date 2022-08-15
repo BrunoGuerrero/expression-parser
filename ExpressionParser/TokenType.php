@@ -9,6 +9,7 @@
         public const RIGHT_SQ_BRACE = '[';
         public const COMMA = ',';
         public const DOT = '.';
+        public const COLON = ':';
         public const MINUS = '-';
         public const PLUS = '+';
         public const SLASH = '/';
