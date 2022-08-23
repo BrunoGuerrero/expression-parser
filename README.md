@@ -132,6 +132,8 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Arc tagent | `atan(a)` | Returns arc tangent value of `a`. |
 | Exponent | `exp(a)` | Returns value of *e* to the power of `a`. |
 | Logarithm | `log(a, base)`| Returns the logarithm of `a` to `base`. |
+| Greatest common divisor | `gcd(a, b)`| Returns the gratest common divisor of `a` and `b`. |
+| Least common multiple | `lcm(a, b)`| Returns the least common multiple of `a` and `b`. |
 
 ### Logic operators
 | Function | Notation | Behaviour |
@@ -143,7 +145,7 @@ This library supports basic arithmetic and math operations, comparisons, as well
 ### Random expressions
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
-| Random in range | `[a, b]` | Returns a random integer value within included boundaries `a` and `b`. |
+| Random in range | `[a, b]`,  `[a:b]` | Returns a random integer value within included boundaries `a` and `b`. |
 | Random in set | `{a, b, c, ...}` | Returns a random value among the ones defined in set. |
 | Weighted random | `{a=>x, b=>y, c}` | Returns random value in set, with weighted probabilities. |
 
