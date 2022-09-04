@@ -156,9 +156,18 @@
                     $this->consume(TokenType::COMMA, "Expected comma or colon, got '" . $this->peek()->lexeme . "'");
                 }
                 $max = $this->expression();
+
+                if($this->peek()->type === TokenType::COMMA) {
+                    $this->consume(TokenType::COMMA, "");
+                    $precision = $this->expression();
+                } else {
+                    $precision = null;
+                }
+
                 $this->consume(TokenType::RIGHT_SQ_BRACE, "Expected closing ], got '" . $this->peek()->lexeme . "'");
-                return new IntervalExpr($min, $max);
+                return new IntervalExpr($min, $max, $precision);
             }
+
 
             throw new Exception("Parsing failed, unexpected character " . $this->peek());
         }

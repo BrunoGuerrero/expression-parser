@@ -131,6 +131,10 @@
                     return cos($this->arg($expr, 0));
                 case "tan":
                     return tan($this->arg($expr, 0));
+                case "asin":
+                    return asin($this->arg($expr, 0));
+                case "acos":
+                    return acos($this->arg($expr, 0));
                 case "atan":
                     return atan($this->arg($expr, 0));
                 case "ceil":
@@ -328,13 +332,17 @@
         }
 
         public function visitIntervalExpr($expr) {
-            return rand($this->evaluate($expr->min), $this->evaluate($expr->max));
+            $stepExpr = $expr->precision ?? 1;
+
+            if($stepExpr === 1) {
+                return mt_rand($this->evaluate($expr->min), $this->evaluate($expr->max));
+            } else {
+                return RandomUtils::randomWithStep($this->evaluate($expr->min), $this->evaluate($expr->max), $this->evaluate($stepExpr));
+            }
         }
 
         public function visitSetExpr($expr) {
             $parameters = [];
-            $totalProbabilities = 0;
-            $nbWeightlessValues = 0;
             
             foreach($expr->elements as $element) {
                 if($element->probability !== null) {

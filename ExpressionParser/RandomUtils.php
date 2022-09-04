@@ -17,5 +17,13 @@
             }
             return;
         }
+
+        public static function randomWithStep($min, $max, $step) {       
+            if($step < 0) {
+                throw "Precision in random needs to be strictly positive.";
+            }
+
+            return rand($min * 1 / $step, $max * 1 / $step) * $step;
+        }
     }
 
