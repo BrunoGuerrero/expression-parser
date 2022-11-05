@@ -211,6 +211,21 @@
 
                     return gmp_intval(gmp_lcm(intval($value1), intval($value2)));
 
+                case "pm":
+                    $value = $this->arg($expr, 0);
+
+                    return [-$value, $value][rand(0, 1)];
+
+                case "pmi":
+                    $value = $this->arg($expr, 0);
+
+                    if(isset($expr->arguments[1])) {
+                        return RandomUtils::randomWithStep(-$value, $value, $this->arg($expr, 1));
+                    } else {
+                        return rand(-$value, $value);
+                    }
+    
+
                 /* Extra functions */
                 case "bin":
                     return decbin($this->arg($expr, 0));
