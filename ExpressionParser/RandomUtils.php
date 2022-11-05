@@ -19,11 +19,16 @@
         }
 
         public static function randomWithStep($min, $max, $step) {       
+            if($step === 0) {
+                throw "Precision in random range cannot be zero.";
+            }
+            
             if($step < 0) {
-                throw "Precision in random needs to be strictly positive.";
+                return $max - rand($min * 1 / $step, $max * 1 / $step) * $step;
+            } else {
+                return rand($min * 1 / $step, $max * 1 / $step) * $step;
             }
 
-            return rand($min * 1 / $step, $max * 1 / $step) * $step;
         }
     }
 
