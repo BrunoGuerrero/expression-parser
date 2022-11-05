@@ -126,8 +126,10 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
 | Square root | `sqrt(a)` | Returns square root value of `a`. |
-| Sinus | `sin(a)` | Returns sinus value of `a`. |
-| Cosinus | `cos(a)` | Returns cosinus value of `a`. |
+| Sine | `sin(a)` | Returns sinus value of `a`. |
+| Arc sine | `asin(a)` | Returns arc sinus value of `a`. |
+| Cosine | `cos(a)` | Returns cosinus value of `a`. |
+| Arc cosine | `acos(a)` | Returns arc cosinus value of `a`. |
 | Tangent | `tan(a)` | Returns tangent value of `a`. |
 | Arc tagent | `atan(a)` | Returns arc tangent value of `a`. |
 | Exponent | `exp(a)` | Returns value of *e* to the power of `a`. |
@@ -146,13 +148,35 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
 | Random in range | `[a, b]`,  `[a:b]` | Returns a random integer value within included boundaries `a` and `b`. |
+| Random in range with steps | `[a, b, step]`,  `[a:b, step]` | Returns a random float value within included boundaries `a` and `b` using `step`.<sup>[[More about this]](#regarding-random-floats-with-steps)</sup> |
 | Random in set | `{a, b, c, ...}` | Returns a random value among the ones defined in set. |
-| Weighted random | `{a=>x, b=>y, c}` | Returns random value in set, with weighted probabilities. |
+| Weighted random | `{a=>x, b=>y, c}` | Returns random value in set, with weighted probabilities.<sup>[[More about this]](#regarding-weighted-randoms)</sup> |
 
-Regarding weighted randoms: 
+#### Random expression shortcuts
+
+These functions are meant to offer a more convenient or readible way for specific random expressions:
+
+| Function | Notation | Same as |Behaviour |
+|:---------|:---------|:---------|:---------|
+| Plus or minus | `pm(a)` | `{-a, a}` | Returns either `-a` and `a`. |
+| Between plus or minus | `pmi(a)` | `[-a, a]` | Returns a random integer value within included boundaries `-a` and `a`. |
+| Between plus or minus with steps | `pmi(a, step)` | `[-a, a, step]` | Returns a random *float* value within included boundaries `-a` and `a` using `step`.<sup>[[More about this]](#regarding-random-floats-with-steps)</sup> |
+| Between 0 and value | `to(a)` | `[0, a]` | Returns a random integer value within included boundaries `0` and `a`. |
+| Between 0 and value with steps | `to(a, step)` | `[0, a, step]` | Returns a random *float* value within included boundaries `0` and `a` using `step`.<sup>[[More about this]](#regarding-random-floats-with-steps)</sup> |
+
+#### Regarding weighted randoms: 
 - All unweighted values have a weight of 1
 - Weighted values are relative to 1, meaning a weight of 2 have 2x more chances to be picked, while a weight of 0.5 have 2x less chances of being picked.
 - Weights can go down to 6 decimal digits
+
+#### Regarding random floats with steps: 
+- `step` cannot be `0`.
+- If `step` is positive, values to pick a random one from will be defined by leaping from the first to the second boundary. 
+- If `step` is negative, values to pick a random one from will be defined by leaping backwards, from the second to the first boundary. 
+- Examples :
+  - `[0, 2, -0.7]` will pick a value between `2`, `1.3` and `0.6`. `-0.1` will not be considered as it is outside of boundaries.
+  - `[0, 2, 0.7]` will pick a value between `0`, `0.7` and `1.4`.
+  - `pmi(2, 0.7)` will pick a value between `-2`, `-1.3`, `-0.6`, `0.1`, `0.8` and `1.5`.
 
 ### Bit manipulation
 | Function | Notation | Behaviour |
