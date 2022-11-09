@@ -174,8 +174,8 @@ These functions are meant to offer a more convenient or readible way for specifi
 - If `step` is positive, values to pick a random one from will be defined by leaping from the first to the second boundary. 
 - If `step` is negative, values to pick a random one from will be defined by leaping backwards, from the second to the first boundary. 
 - Examples :
-  - `[0, 2, -0.7]` will pick a value between `2`, `1.3` and `0.6`. `-0.1` will not be considered as it is outside of boundaries.
   - `[0, 2, 0.7]` will pick a value between `0`, `0.7` and `1.4`.
+  - `[0, 2, -0.7]` will pick a value between `2`, `1.3` and `0.6`.
   - `pmi(2, 0.7)` will pick a value between `-2`, `-1.3`, `-0.6`, `0.1`, `0.8` and `1.5`.
 
 ### Bit manipulation
