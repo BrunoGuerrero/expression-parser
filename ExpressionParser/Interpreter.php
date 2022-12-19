@@ -160,7 +160,15 @@
                         return sqrt($value);
                     } else {
                         throw new Exception("Sqrt on negative value " . $value);
-                    }          
+                    }     
+                case "wave":
+                    $min = $this->arg($expr, 0);
+                    $max = $this->arg($expr, 1);
+                    $period = $this->arg($expr, 2);
+                    $t = $this->arg($expr, 3);
+                    $amplitude = ($max - $min) / 2;
+
+                    return $amplitude - $amplitude * cos((M_PI * $t) / ($period / 2)) + $min;
 
                 /* Comparison functions */
                 case "min":
