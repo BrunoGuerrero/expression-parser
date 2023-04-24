@@ -104,6 +104,9 @@
                 case TokenType::EQUAL:
                     $result = ($left == $right);
                     return intval($result);
+                case TokenType::BANG_EQUAL:
+                    $result = ($left != $right);
+                    return intval($result);
                 case TokenType::GREATER:
                     $result = ($left > $right);
                     return intval($result);
@@ -161,7 +164,7 @@
                     } else {
                         throw new Exception("Sqrt on negative value " . $value);
                     }     
-                case "wave":
+                case "swav":
                     $min = $this->arg($expr, 0);
                     $max = $this->arg($expr, 1);
                     $period = $this->arg($expr, 2);
@@ -388,8 +391,8 @@
         }
 
 
-        private function arg($expr, $index) {
-            if(!isset($expr->arguments[$index])) {
+        private function arg($expr, $index, $facultative = false) {
+            if(!$facultative && !isset($expr->arguments[$index])) {
                 throw new Exception("Could not find parameter at position " . ($index + 1));
             }
             return (float)$this->evaluate($expr->arguments[$index]);
