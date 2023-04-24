@@ -101,6 +101,7 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
 | Equals | `a = b` | Returns 1 if `a` equals `b`, returns 0 otherwise. |
+| Does not equal | `a != b` | Returns 0 if `a` equals `b`, returns 1 otherwise. |
 | Greater than | `a > b` | Returns 1 if `a` is greater than `b`, returns 0 otherwise. |
 | Greater or equals | `a >= b` | Returns 1 if `a` is greater than, or equals `b`; returns 0 otherwise. |
 | Less than | `a < b` | Returns 1 if `a` is less than `b`, returns 0 otherwise. |
@@ -136,6 +137,7 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Logarithm | `log(a, base)`| Returns the logarithm of `a` to `base`. |
 | Greatest common divisor | `gcd(a, b)`| Returns the gratest common divisor of `a` and `b`. |
 | Least common multiple | `lcm(a, b)`| Returns the least common multiple of `a` and `b`. |
+| Sine wave | `swav(min, max, p, t)`| Returns the value of a point at time position `t` on a sine wave function<br>of period `p` and peak values going from `min` to `max`.|
 
 ### Logic operators
 | Function | Notation | Behaviour |
