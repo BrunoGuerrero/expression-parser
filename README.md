@@ -23,7 +23,7 @@ Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent
   - [Comparison functions](#comparison-functions)
   - [Rounding functions](#rounding-functions)
   - [Math functions](#math-functions)
-  - [Logic operators](#logic-operators)
+  - [Logic operators and "If" function](#logic-operators)
   - [Random expressions](#random-expressions)
   - [Bit manipulation](#bit-manipulation)
   - [Bitwise operators](#bitwise-operators)
@@ -138,13 +138,16 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Greatest common divisor | `gcd(a, b)`| Returns the gratest common divisor of `a` and `b`. |
 | Least common multiple | `lcm(a, b)`| Returns the least common multiple of `a` and `b`. |
 | Sine wave | `swav(min, max, p, t)`| Returns the value of a point at time position `t` on a sine wave function<br>of period `p` and peak values going from `min` to `max`.|
+| Triangle wave | `twav(min, max, p, t)`| Returns the value of a point at time position `t` on a triangle wave function<br>of period `p` and peak values going from `min` to `max`.|
+| Alternate | `alt(min, max, p, t)`| Returns the value of a point at time position `t` on a function<br> alternating between `min` to `max` on a period of `p`.|
 
-### Logic operators
+### Logic operators and "If" function
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
 | And | `a && b` | Returns 0 if either `a` or `b` equals 0, returns 1 otherwise. |
 | Or | `a \|\| b` | Returns 1 if either `a` or `b` is different from 0, returns 0 otherwise. |
-| Zero-check | `a ?: b` | Returns `a` if different from 0, returns `b` otherwise. |
+| Zero-check | `a ?? b` | Returns `a` if different from 0, returns `b` otherwise. |
+| "If" condition | `if(cond, a, b)` | Returns `a` if 'cond' is different from 0, returns `b` otherwise. |
 
 ### Random expressions
 | Function | Notation | Behaviour |
