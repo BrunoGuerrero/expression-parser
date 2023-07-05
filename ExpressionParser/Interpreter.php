@@ -172,6 +172,22 @@
                     $amplitude = ($max - $min) / 2;
 
                     return $amplitude - $amplitude * cos((M_PI * $t) / ($period / 2)) + $min;
+                case "twav":
+                    $min = $this->arg($expr, 0);
+                    $max = $this->arg($expr, 1);
+                    $period = $this->arg($expr, 2);
+                    $t = $this->arg($expr, 3);
+                    $amplitude = ($max - $min) / 2;
+
+                    return ((2 * $amplitude) / M_PI) * asin(sin(((2 * M_PI) / $period) * $t));
+                case "alt":
+                    $min = $this->arg($expr, 0);
+                    $max = $this->arg($expr, 1);
+                    $period = $this->arg($expr, 2);
+                    $t = $this->arg($expr, 3);
+                    $amplitude = ($max - $min) / 2;
+
+                    return (($t % $period) >= ($period / 2)) ? $max : $min;
 
                 /* Comparison functions */
                 case "min":
@@ -241,6 +257,13 @@
                         return rand(0, $value);
                     }
     
+                /* Logic functions */
+                case "if":
+                    $condition = $this->arg($expr, 0);
+                    $ifTrue = $this->arg($expr, 1);
+                    $ifFalse = $this->arg($expr, 2);
+
+                    return ($condition != 0) ? $ifTrue : $ifFalse;
 
                 /* Extra functions */
                 case "bin":

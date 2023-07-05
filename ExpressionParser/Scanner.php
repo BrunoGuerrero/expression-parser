@@ -45,7 +45,7 @@
                 case '^': $this->addToken(TokenType::HAT); break; 
                 case '~': $this->addToken(TokenType::TILDE); break; 
                 case '?': 
-                    $this->addToken($this->match(':') ? TokenType::TERNARY : TokenType::INTERROGATION); 
+                    $this->addToken($this->match('?') ? TokenType::TERNARY : TokenType::INTERROGATION); 
                     break; 
                 case '|': 
                     $this->addToken($this->match('|') ? TokenType::DOUBLE_PIPE : TokenType::PIPE); 
@@ -88,7 +88,7 @@
                 } else if ($this->isAlpha($c)) {
                     $this->identifier();
                 } else {
-                    die(" Unexpected character : <i>" . $c . "</i> at line <b>" . $this->line . "</b>");
+                    die("Unknwon character : <i>" . $c . "</i> at line <b>" . $this->line . "</b>");
                 }
                 break;
             }

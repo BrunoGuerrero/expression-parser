@@ -69,7 +69,7 @@
                 $operator = $this->previous();
                 $right = $this->unary();
                 if(!$right) {
-                    throw new Exception("Expected identifier or number, got " . $operator->lexeme);
+                    throw new Exception("Expected identifier or number, got " . $this->getLexeme($operator->lexeme));
                 }
                 $expr = new BinaryExpr($expr, $operator, $right);
             }
@@ -110,7 +110,7 @@
             }
         
             $paren = $this->consume(TokenType::RIGHT_PAREN,
-                                  "Expect ')' after arguments.");
+                "Expected ')' after list of arguments, got " . $this->getLexeme($this->peek()));
         
             return new CallExpr($callee, $paren, $arguments);
         }
@@ -126,13 +126,13 @@
 
             if ($this->match(TokenType::LEFT_PAREN)) {
               $expr = $this->expression();
-              $this->consume(TokenType::RIGHT_PAREN, "Expected ')' to close group, got '" . $this->peek()->lexeme . "'");
+              $this->consume(TokenType::RIGHT_PAREN, "Expected ')' to close group, got " . $this->getLexeme($this->peek()));
               return new GroupingExpr($expr);
             }
 
             if ($this->match(TokenType::PIPE)) {
                 $expr = $this->expression();
-                $pipe = $this->consume(TokenType::PIPE, "Expected '|' after abs expression, got '" . $this->peek()->lexeme . "'");
+                $pipe = $this->consume(TokenType::PIPE, "Expected '|' after abs expression, got " . $this->getLexeme($this->peek()));
                 return new UnaryExpr($pipe, $expr);
             }
 
@@ -153,7 +153,7 @@
                 if($this->peek()->type === TokenType::COLON) {
                     $this->consume(TokenType::COLON, "");
                 } else {
-                    $this->consume(TokenType::COMMA, "Expected comma or colon, got '" . $this->peek()->lexeme . "'");
+                    $this->consume(TokenType::COMMA, "Expected comma or colon, got " . $this->getLexeme($this->peek()));
                 }
                 $max = $this->expression();
 
@@ -164,12 +164,15 @@
                     $precision = null;
                 }
 
-                $this->consume(TokenType::RIGHT_SQ_BRACE, "Expected closing ], got '" . $this->peek()->lexeme . "'");
+                $this->consume(TokenType::RIGHT_SQ_BRACE, "Expected closing ], got " . $this->getLexeme($this->peek()));
                 return new IntervalExpr($min, $max, $precision);
             }
 
-
-            throw new Exception("Parsing failed, unexpected character " . $this->peek());
+            if($this->peek()->type === TokenType::EOF) {
+                throw new Exception("Parsing failed, unexpected end of expression");
+            } else {
+                throw new Exception("Parsing failed, unexpected character " . $this->getLexeme($this->peek()));
+            }
         }
 
         private function buildSet() {    
@@ -234,6 +237,14 @@
                 return $this->advance();
             }
         
-            die ($message);
+            throw new Exception($message);
+        }
+
+        private function getLexeme($token) {
+            if($token->type === TokenType::EOF) {
+                return "end of expression";
+            } else {
+                return "'" . $token->lexeme . "'";
+            }
         }
     }
