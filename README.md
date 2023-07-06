@@ -147,7 +147,7 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | And | `a && b` | Returns 0 if either `a` or `b` equals 0, returns 1 otherwise. |
 | Or | `a \|\| b` | Returns 1 if either `a` or `b` is different from 0, returns 0 otherwise. |
 | Zero-check | `a ?? b` | Returns `a` if different from 0, returns `b` otherwise. |
-| "If" condition | `if(cond, a, b)` | Returns `a` if 'cond' is different from 0, returns `b` otherwise. |
+| "If" condition | `if(cond, a, b)` | Returns `a` if `cond` is different from 0, returns `b` otherwise. |
 
 ### Random expressions
 | Function | Notation | Behaviour |
