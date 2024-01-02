@@ -164,6 +164,20 @@
                     } else {
                         throw new Exception("Sqrt on negative value " . $value);
                     }     
+                case "fib":
+                    $index = $this->arg($expr, 0);
+                    $num1 = 0; 
+                    $num2 = 1; 
+                
+                    $counter = 0; 
+                    while ($counter < $index){ 
+                        $num3 = $num2 + $num1; 
+                        $num1 = $num2; 
+                        $num2 = $num3; 
+                        $counter = $counter + 1; 
+                    } 
+
+                    return $num1;
                 case "swav":
                     $min = $this->arg($expr, 0);
                     $max = $this->arg($expr, 1);
@@ -274,12 +288,45 @@
                         throw new Exception("Bit value in bit() function starts at position 1,  " . $bitPos . " given.");
                     }
                     $binValue = strval(decbin($this->arg($expr, 0)));
-                    $bit = strlen($binValue) - $bitPos;
 
                     if($bitPos > strlen($binValue)) {
                         return 0;
                     }
-                    return substr($binValue, $bitPos - 1, 1);
+                    return substr($binValue, -$bitPos, 1);
+                case "dig":
+                    $bitPos = $this->arg($expr, 1);
+                    $base = $this->arg($expr, 2, true);
+
+                    if($bitPos <= 0) {
+                        throw new Exception("Bit value in dig() function starts at position 1,  " . $bitPos . " given.");
+                    }
+                    if($base != null && $base <= 1 || $base > 36) {
+                        throw new Exception("Base argument of dig() should be equal or greater than 2 and lower or equal than 36,  " . $base . " given.");
+                    }
+
+                    $decValue = $this->arg($expr, 0);
+
+                    if($base) {
+                        $decValue = base_convert($decValue, 10, $base);
+                    }
+
+                    $decValueAsStr = strval($decValue);
+
+                    if($bitPos > strlen($decValueAsStr)) {
+                        return 0;
+                    }
+
+                    $bit = substr($decValueAsStr, -$bitPos, 1);
+
+                    // Reverts value back to decimal in case we go beyond 10
+                    if($base) {
+                        $backConvert = base_convert($bit, $base, 10);
+                        if($backConvert > 9) {
+                            $bit = $backConvert;
+                        }
+                    }
+
+                    return $bit;
             }
 
             $customFuncResult = $this->callCustomFunc($expr);
@@ -417,6 +464,8 @@
         private function arg($expr, $index, $facultative = false) {
             if(!$facultative && !isset($expr->arguments[$index])) {
                 throw new Exception("Could not find parameter at position " . ($index + 1));
+            } else if ($facultative && !isset($expr->arguments[$index])) {
+                return null;
             }
             return (float)$this->evaluate($expr->arguments[$index]);
         }
