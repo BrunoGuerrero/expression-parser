@@ -7,10 +7,9 @@ Once computed, expression will always return either `int` or `float` values.
 ## Disclaimer
 
 This library has been developed for a dedicated purpose and is released for anyone to toy around with. While everything is working as intended, this library is offered as is.
-
 ## Acknowledgment
 
-Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent) rather excellent book [Crafting Interpreters](http://craftinginterpreters.com). Most of the code is ported either from selected parts of the book examples or from the java implementation [available on the book's repository](https://github.com/munificent/craftinginterpreters/tree/master/java/com/craftinginterpreters/lox), with some liberties taken by yours truly to craft some new features.
+Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent) rather excellent book [Crafting Interpreters](http://craftinginterpreters.com). Most of the code is ported either from selected parts of the book examples or from the java implementation [available on the book's repository](https://github.com/munificent/craftinginterpreters/tree/master/java/com/craftinginterpreters/lox), with some liberties taken by yours truly (that you may very much question) to craft some new features, sometimes for very specific needs.
 
 ## Documentation
 
@@ -26,7 +25,7 @@ Architecture is directly inspired by [Bob Nystrom](https://github.com/munificent
   - [Wave functions](#wave-functions)
   - [Logic operators and "If" function](#logic-operators)
   - [Random expressions](#random-expressions)
-  - [Bit manipulation](#bit-manipulation)
+  - [Bit, base and digit manipulation](#bit-base-and-digit-manipulation)
   - [Bitwise operators](#bitwise-operators)
   - [Back-referencing](#back-referencing)
 - [Expanding parser capabilities](#expanding-parser-capabilities)
@@ -138,6 +137,7 @@ This library supports basic arithmetic and math operations, comparisons, as well
 | Logarithm | `log(a, base)`| Returns the logarithm of `a` to `base`. |
 | Greatest common divisor | `gcd(a, b)`| Returns the gratest common divisor of `a` and `b`. |
 | Least common multiple | `lcm(a, b)`| Returns the least common multiple of `a` and `b`. |
+| Fibonacci sequence | `fib(index)`| Returns value at position `index` in the Fibonacci sequence. |
 
 ### Wave functions	
 | Function | Notation | Behaviour |
@@ -188,11 +188,13 @@ These functions are meant to offer a more convenient or readible way for specifi
   - `[0, 2, -0.7]` will pick a value between `2`, `1.3` and `0.6`.
   - `pmi(2, 0.7)` will pick a value between `-2`, `-1.3`, `-0.6`, `0.1`, `0.8` and `1.5`.
 
-### Bit manipulation
+### Bit, base and digit manipulation
 | Function | Notation | Behaviour |
 |:---------|:---------|:---------|
 | To base 2 | `bin(a)` | Returns base 2 value of `a`. |
 | Get bit at | `bit(val, pos)` | Returns bit at position `pos` of base 2 value of `val` (Starting from the rightest bit). `pos` value starts at 1. |
+| Get digit at | `dig(val, pos)` | Returns digit at position `pos` of value `val` (Starting from the rightest digit). `pos` value starts at 1. |
+| Get digit at (with base conversion) | `dig(val, pos, base)` | Converts `val` to `base` and returns digit at position `pos` (Starting from the rightest digit). `pos` value starts at 1. If digit is greater than 9 (Such as with hexadecimal numbers), digit is converted back to base 10 before being returned. |
 
 ### Bitwise operators
 All the following operators return a value built from a bitwise operation. These are built upon their PHP equivalent built-in operators, which the [documentation on bitwise operators](https://www.php.net/manual/en/language.operators.bitwise.php) will do a better job at explaining than I will ever do.
