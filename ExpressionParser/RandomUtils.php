@@ -18,15 +18,34 @@
             return;
         }
 
-        public static function randomWithStep($min, $max, $step) {       
+        public static function randomWithStep($min, $max, $step) { 
+            
+            $precisionMin = (int) strpos(strrev(strval($min)), ".");
+            $precisionMax = (int) strpos(strrev(strval($max)), ".");
+            $precisionStep = (int) strpos(strrev(strval($step)), ".");
+
+            $randPrecision = max($precisionMin, $precisionMax, $precisionStep);
+
+            $min = round($min, $randPrecision);
+            $max = round($max, $randPrecision);
+
             if($step === 0) {
                 throw "Precision in random range cannot be zero.";
             }
             
             if($step < 0) {
-                return $max - rand($min * 1 / $step, $max * 1 / $step) * $step;
+                $val = $max - rand(
+                                intval($min * 1 / $step), 
+                                intval($max * 1 / $step))
+                            * $step;
+
+                return round($val, $randPrecision);
             } else {
-                return rand($min * 1 / $step, $max * 1 / $step) * $step;
+                $rand = rand(
+                    intval($min * 1 / $step), 
+                    intval($max * 1 / $step));
+
+                return round($rand * $step, $randPrecision);
             }
 
         }
